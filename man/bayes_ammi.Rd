@@ -28,6 +28,7 @@ Bayesian estimation method of linear–bilinear models for Genotype by Environme
 }
 \examples{
 
+library(baystability)
 data(cultivo2008)
 fm1 <-
    ge_ammi(
@@ -136,6 +137,7 @@ library(ggplot2)
       print(BiplotOLS3)
 
 
+data(cultivo2009)
 fm3 <-
   bayes_ammi(
     .data = cultivo2009
