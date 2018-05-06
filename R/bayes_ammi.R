@@ -150,6 +150,7 @@
 #'       print(BiplotOLS3)
 #'
 #'
+#' data(cultivo2009)
 #' fm3 <-
 #'   bayes_ammi(
 #'     .data = cultivo2009
