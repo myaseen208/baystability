@@ -42,6 +42,7 @@
 #'
 #' @examples
 #'
+#' library(baystability)
 #' data(cultivo2008)
 #' fm1 <-
 #'    ge_ammi(
