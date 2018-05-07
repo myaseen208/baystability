@@ -1,4 +1,4 @@
-# baystability : Bayesian Stability Analysis of Genotype by Environment Interaction (GEI) 
+# baystability: Bayesian Stability Analysis of Genotype by Environment Interaction (GEI) 
 
 ## Installation
 Use **devtools** to install the development version from Github:
