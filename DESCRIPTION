@@ -11,6 +11,8 @@ Authors@R: c(
             )
 Maintainer: Muhammad Yaseen <myaseen208@gmail.com>
 Description: Performs general Bayesian estimation method of linear–bilinear models for genotype × environment interaction. The method is explained in Perez-Elizalde, S., Jarquin, D., and Crossa, J. (2011) (<doi:10.1007/s13253-011-0063-9>).
+URL: https://myaseen208.com/baystability/, https://github.com/myaseen208/baystability
+BugReports: https://github.com/myaseen208/baystability/issues
 Depends: R (>= 3.1)
 Imports: 
   dplyr,
