@@ -1,0 +1,97 @@
+---
+output: rmarkdown::github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "",
+  fig.path = "inst/extdata/"
+)
+```
+
+## `baystability`: Bayesian Stability Analysis of Genotype by Environment Interaction (GEI)
+
+
+###### Version : [`r getNamespaceVersion("baystability")`](https://myaseen208.com/baystability/); Copyright (C) 2018-2024: License: [GPL-2|GPL-3](https://www.r-project.org/Licenses/)
+
+
+##### *Muhammad Yaseen^1,2^, Diego Jarquin^3^, Sergio Perez-Elizalde^4^,  Juan Burgueño^5^, Jose Crossa^6,7,8,9^*
+  
+
+1. School of Mathematical & Statistical Sciences, Clemson University, Clemson, South Carolina, USA
+2. Department of Mathematics & Statistics, University of Agriculture Faisalabad, Pakistan
+3. Agronomy Department, University of Florida, Gainesville, FL, United States
+4. Colegio de Postgraduados, Montecillo,Estado de México 56230, México
+5. Consultative Group on International Agricultural Research: CGIAR
+6. Department of Statistics and Operations Research, and Distinguish Scientist Fellowship Program, King Saud University, Riyah, Saudi Arabia
+7. AgCenter, Louisiana State University, Baton Rouge, Louisiana, USA
+8. Colegio de Postgraduados, Montecillos, Mexico
+9. International Maize and Wheat Improvement Center (CIMMYT), Mexico-Veracruz, Mexico 
+
+***
+
+[![minimal R version](https://img.shields.io/badge/R>%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/baystability)](https://cran.r-project.org/package=baystability)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/baystability?color=green)](https://CRAN.R-project.org/package=baystability)
+<!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.3.3-orange.svg)](https://github.com/myaseen208/baystability) -->
+
+```{r, results='asis', echo=FALSE}
+dver <- ifelse(test = gsub("(.\\.)(\\d+)(\\..)", "", getNamespaceVersion("baystability")) != "",
+               yes = getNamespaceVersion("baystability"),
+               no = gsub("Version:\\s*", "", readLines(paste0("https://raw.githubusercontent.com/", "myaseen208/baystability", "/master/DESCRIPTION"))[grep("Version:", readLines(paste0("https://raw.githubusercontent.com/", "myaseen208/baystability", "/master/DESCRIPTION")))]))
+cat(paste("[![develVersion](https://img.shields.io/badge/devel%20version-", dver, "-orange.svg)](https://github.com/myaseen208/baystability)", sep = ""))
+```
+
+<!-- [![GitHub Download Count](https://github-basic-badges.herokuapp.com/downloads/myaseen208/baystability/total.svg)] -->
+[![Project Status: WIP](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](https://github.com/myaseen208/baystability)
+***
+
+## Description
+`r gsub("(<doi:)(.+)(>)", "[doi:\\2](https://doi.org/\\2)", gsub("\\n", " ", packageDescription("baystability", fields = "Description")))`
+
+## Installation
+The package can be installed from CRAN as follows:
+
+```{r, eval=FALSE}
+install.packages("baystability", dependencies = TRUE)
+```
+
+
+
+The development version can be installed from github as follows:
+
+```{r, eval=FALSE}
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("myaseen208/baystability")
+```
+
+
+
+## What's new
+To know whats new in this version type:
+
+```{r, eval=FALSE}
+news(package = "baystability")
+```
+
+## Links
+
+[CRAN page](https://cran.r-project.org/package=baystability)
+
+[Github page](https://github.com/myaseen208/baystability)
+
+[Documentation website](https://myaseen208.com/baystability/)
+
+
+
+## Citing `baystability`
+To cite the methods in the package use:
+
+
+```{r, comment = ""}
+citation("baystability")
+```

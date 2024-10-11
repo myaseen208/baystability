@@ -1,0 +1,68 @@
+url: https://myaseen208.com/baystability/
+
+home:
+  title: baystability
+  description: Bayesian Stability Analysis of Genotype by Environment Interaction (GEI)
+
+template:
+  bootstrap: 5
+  params:
+    bootswatch: united
+    ganalytics: UA-116716530-2
+    docsearch:
+      api_key: bdafb7ea4490644e670f470ee3ef537f
+      index_name: baystability
+
+
+
+toc:
+  depth: 3
+
+authors:
+  Muhammmad Yaseen:
+    href: https://www.researchgate.net/profile/Muhammad_Yaseen10
+  Diego Jarquin:
+    href: https://www.researchgate.net/profile/Diego-Jarquin
+  Sergio Perez-Elizalde:
+    href: https://www.researchgate.net/profile/Sergio-Perez-Elizalde
+  Juan Burgueño:
+    href: https://www.researchgate.net/profile/Juan-Burgueno
+  Jose Crossa:
+    href: https://www.researchgate.net/profile/Jose-Crossa
+
+
+
+
+development:
+  mode: unreleased
+
+
+navbar:
+  title: baystability
+  type: default
+  left:
+    - icon: fa-home fa-lg
+      text: Home
+      href: index.html
+    - icon: fa-code
+      text: Reference
+      href: reference/index.html
+    - icon: fa-newspaper-o
+      text: News
+      href: news/index.html
+  right:
+    - text: "GitHub"
+      href: https://github.com/myaseen208/baystability
+      icon: fa-github
+      aria-label: "GitHub repository"
+    - text: "ResearchGate"
+      href: https://www.researchgate.net/profile/Muhammad_Yaseen10
+      icon: fa-github
+      aria-label: "ResearchGate"
+    - text: "Twitter"
+      href: https://twitter.com/myaseen208
+      icon: "fab fa-twitter"
+      aria-label: "Twitter"
+
+reference:
+
