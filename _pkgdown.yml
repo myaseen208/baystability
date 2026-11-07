@@ -1,0 +1,99 @@
+url: https://myaseen208.com/baystability/
+title: Bayesian Stability Analysis of Genotype by Environment Interaction (GEI)
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  math-rendering: mathjax
+  bslib:
+    base_font:
+      google: Crimson Pro
+    heading_font:
+      google: Crimson Pro
+    code_font:
+      google: JetBrains Mono
+    bg: "#ffffff"
+    fg: "#1a1a1a"
+    primary: "#2c5f8a"
+    link-color: "#2c5f8a"
+
+home:
+  sidebar:
+    structure: [links, license, citation, authors, dev]
+
+navbar:
+  structure:
+    left:  [home, reference, articles, pdf, news]
+    right: [search, github]
+  components:
+    pdf:
+      text: PDF
+      href: pdf/index.html
+
+articles:
+  - title: Getting started
+    navbar: Getting started
+    contents:
+      - baystability_01_getting_started
+      - baystability_02_theory
+  - title: The published analysis
+    navbar: Published analysis
+    contents:
+      - baystability_03_perez2012
+  - title: Methods and validation
+    navbar: Methods and validation
+    contents:
+      - baystability_04_sreg_terms
+      - baystability_05_validation
+  - title: The application
+    navbar: Application
+    contents:
+      - baystability_06_app
+
+reference:
+  - title: Bayesian linear-bilinear models
+    desc: The Gibbs sampler of Perez-Elizalde et al. (2012) with an earlier trial as prior, and the biplot with HPD regions.
+    contents:
+      - bys_priors
+      - bayes_ammi
+      - bayes_gge
+      - bayes_ammi_biplot
+  - title: Model choice, interpretation and references
+    contents:
+      - bys_compare
+      - "bys-draws"
+      - bys_interpret
+      - bys_cite
+  - title: The application
+    contents:
+      - bys_app
+  - title: Tables and least-squares AMMI
+    desc: Cell means and variances, main and interaction effects, least-squares AMMI and the mixed model.
+    contents:
+      - bys_ls_means
+      - bys_ls_var
+      - bys_ls_gen_effects
+      - bys_ls_env_effects
+      - bys_ls_ge_effects
+      - bys_ls_ammi
+      - bys_ls_model
+  - title: Matrices
+    contents:
+      - bys_contrasts
+      - bys_orthonormal
+  - title: Data
+    contents:
+      - cultivo2008
+  - title: Results and utilities
+    contents:
+      - "bys-methods"
+      - bys_theme
+      - bys_save
+      - bys_notation
+      - bys_reference
+      - "baystability-package"
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

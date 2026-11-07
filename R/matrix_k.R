@@ -1,0 +1,43 @@
+#' Orthonormal contrast matrix
+#'
+#' @description
+#' \code{bys_contrasts()} returns the \eqn{(n - 1) \times n}{(n - 1) x n} matrix \eqn{\mathbf{K}_n}{K_n} whose rows are
+#' orthonormal and orthogonal to \eqn{\mathbf{1}_n}{1_n} (Helmert contrasts). \code{\link{bayes_ammi}()} writes the
+#' main effects as \eqn{\boldsymbol{\tau} = \mathbf{K}_G^\top\mathbf{t}}{tau = K_G' t}, which keeps them summing to
+#' zero.
+#'
+#' @details
+#' Row \eqn{r}{r} (\eqn{r = 1, \ldots, n - 1}{r = 1, ..., n - 1}) has \eqn{0}{0} in its first \eqn{r - 1}{r - 1}
+#' positions, \eqn{(n - r)/c_r}{(n - r)/c_r} in position \eqn{r}{r} and \eqn{-1/c_r}{-1/c_r} after it, with
+#' \eqn{c_r = \sqrt{(n - r)(n - r + 1)}}{c_r = sqrt((n - r)(n - r + 1))}, so that
+#' \deqn{\mathbf{K}_n\mathbf{K}_n^\top = \mathbf{I}_{n-1}, \qquad \mathbf{K}_n\mathbf{1}_n = \mathbf{0}, \qquad
+#'   \mathbf{K}_n^\top\mathbf{K}_n = \mathbf{I}_n - \frac{1}{n}\mathbf{J}_n.}{K K' = I, K 1 = 0, K' K = I - J/n.}
+#'
+#' @param n number of columns (at least 2).
+#' @return The \eqn{(n - 1) \times n}{(n - 1) x n} matrix \eqn{\mathbf{K}_n}{K_n}.
+#' @references
+#' Crossa, J., Perez-Elizalde, S., Jarquin, D., Cotes, J. M., Viele, K., Liu, G. and Cornelius, P. L. (2011).
+#' Bayesian estimation of the additive main effects and multiplicative interaction model. \\emph{Crop Science},
+#' \\strong{51}(4), 1458--1469. \\doi{10.2135/cropsci2010.06.0343}
+#' @author Muhammad Yaseen (\email{myaseen208@@gmail.com})
+#' @seealso \code{\link{bys_orthonormal}}
+#' @examples
+#' K <-
+#'   bys_contrasts(
+#'     n = 4
+#'   )
+#' K
+#' round(x = K %*% t(K), digits = 10)
+#' @export
+bys_contrasts <- function(n) UseMethod("bys_contrasts")
+
+#' @rdname bys_contrasts
+#' @export
+bys_contrasts.default <- function(n) {
+  n <- .bys_check_number(n, "n", "bys_contrasts", min = 2, integer = TRUE)
+  m <- matrix(0, nrow = n - 1L, ncol = n)
+  r <- seq_len(n - 1L)
+  m[upper.tri(m)] <- -1
+  diag(m) <- n - r
+  m / sqrt((n - r) * (n - r + 1))
+}

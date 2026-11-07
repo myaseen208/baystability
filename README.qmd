@@ -1,0 +1,175 @@
+---
+title: "baystability: Bayesian Stability Analysis of Genotype by Environment Interaction (GEI)"
+format:
+  gfm:
+    default-image-extension: ""
+---
+
+```{r, include = FALSE}
+# figures as WebP: lossless (the same pixels as PNG in about half the space), or lossy at quality 90 when that is
+# less than half the size; any failure of magick keeps the PNG
+webp <- function(path) {
+  tryCatch(
+      {
+        if (!requireNamespace("magick", quietly = TRUE) || !isTRUE(magick::magick_config()$webp)) return(path)
+        img <- magick::image_read(path = path)
+        out <- sub(pattern = "[.]png$", replacement = ".webp", x = path)
+        tmp <- tempfile(fileext = ".webp")
+        magick::image_write(
+            image   = img
+          , path    = out
+          , format  = "webp"
+          , quality = 100
+          , defines = c(`webp:lossless` = "true")
+          )
+        magick::image_write(image = img, path = tmp, format = "webp", quality = 90)
+        if (file.size(tmp) < file.size(out) / 2) file.copy(from = tmp, to = out, overwrite = TRUE)
+        unlink(c(path, tmp))
+        out
+      }
+    , error = function(e) path
+    )
+}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.path = "man/figures/README-", dpi = 120,
+                      dev = "ragg_png", fig.process = webp)
+```
+
+```{r badges, include = FALSE}
+# badges computed from DESCRIPTION, so that they never go stale
+desc  <- read.dcf("DESCRIPTION", fields = c("Version", "Depends", "License"))
+r_min <- sub(".*R \\(>= *([0-9.]+)\\).*", "\\1", desc[, "Depends"])
+enc   <- function(x) {
+  x <- gsub("-", "--", x, fixed = TRUE)
+  for (p in list(c(" ", "%20"), c("(", "%28"), c(")", "%29"), c(">", "%3E"), c("=", "%3D"), c("+", "%2B"), c("|", "%7C"))) {
+    x <- gsub(p[1L], p[2L], x, fixed = TRUE)
+  }
+  x
+}
+lic   <- sub(" \\+ file LICENSE$", "", desc[, "License"])
+lic_url <- if (grepl("^MIT", lic)) "https://opensource.org/licenses/MIT" else if (grepl("|", lic, fixed = TRUE))
+  "https://www.gnu.org/licenses/licenses.html" else if (grepl("GPL-3", lic))
+  "https://www.gnu.org/licenses/gpl-3.0.html" else "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+```
+
+[![CRAN release](https://www.r-pkg.org/badges/version-last-release/baystability)](https://CRAN.R-project.org/package=baystability)
+[![CRAN checks](https://badges.cranchecks.info/worst/baystability.svg)](https://cran.r-project.org/web/checks/check_results_baystability.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/baystability?color=green)](https://CRAN.R-project.org/package=baystability)
+[![Monthly downloads](https://cranlogs.r-pkg.org/badges/last-month/baystability?color=green)](https://CRAN.R-project.org/package=baystability)
+[![r-universe](https://myaseen208.r-universe.dev/badges/baystability)](https://myaseen208.r-universe.dev/baystability)
+[![R-CMD-check](https://github.com/myaseen208/baystability/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/myaseen208/baystability/actions/workflows/R-CMD-check.yml)
+[![Development version](https://img.shields.io/badge/devel%20version-`r enc(desc[, "Version"])`-orange.svg)](https://github.com/myaseen208/baystability)
+[![Minimal R version](https://img.shields.io/badge/R%3E%3D-`r r_min`-6666ff.svg)](https://cran.r-project.org/)
+[![Dependencies](https://tinyverse.netlify.app/badge/baystability)](https://CRAN.R-project.org/package=baystability)
+[![License](https://img.shields.io/badge/License-`r enc(lic)`-blue.svg)](`r lic_url`)
+[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Last commit](https://img.shields.io/github/last-commit/myaseen208/baystability)](https://github.com/myaseen208/baystability/commits)
+
+## Overview
+
+**baystability** fits the linear-bilinear models of multi-environment trials, AMMI and SREG (GGE), by the general
+Bayesian method of Perez-Elizalde, Jarquin and Crossa (2012). The data of an earlier trial with the same genotypes and
+environments can be the prior: its cell means, effects and singular value decomposition give conjugate normal and
+von Mises-Fisher priors, weighted by its replicates. Every parameter has a posterior distribution, and the biplot
+carries highest posterior density (HPD) regions.
+
+* `bayes_ammi()`: the Gibbs sampler (compiled), with `.prior_data` (an earlier trial as prior), `.model = "AMMI"` or
+  `"SREG"`, the number of terms, chains, burn-in and a seed; summaries with HPD intervals, diagnostics, DIC and
+  WAIC;
+* `bayes_gge()`: the SREG (GGE) model, the same as `bayes_ammi(.model = "SREG")`;
+* `bayes_ammi_biplot()`, `bayes_gge_biplot()`: the biplots with HPD regions;
+* `bys_compare()`: WAIC and DIC of several fits; `bys_interpret()`: a plain-language interpretation;
+  `bys_cite()`: the references of a result;
+* `bys_ls_means()`, `bys_ls_ge_effects()`, `bys_ls_ammi()` and the other `bys_ls_` functions: the tables and the
+  least-squares AMMI (the names of version 0.2.0 still work, with a deprecation warning);
+* `bys_app()`: all of this in a web browser, without code.
+
+Version 1.0.0 replaces the sampler of version 0.2.0. That version read the earlier trial from objects in the
+workspace, never sampled the singular values and returned a precision computed from a residual that was never
+updated (see NEWS). The new sampler reproduces the 38 linear effects of Table B.1 of the paper to within 0.03
+posterior standard deviations. It adds exact two-column moves, without which the genotype scores of a fit with all
+terms cannot move.
+
+For Bayesian stability analysis in general (Finlay-Wilkinson, Eberhart-Russell and Shukla models, stability indices,
+probabilities of superior performance), see **bayesstability**. For the Bayesian AMMI model of Crossa et al.
+(2011), see **bayesammi**.
+
+## Installation
+
+```r
+install.packages("baystability")
+```
+
+## Quick start
+
+```{r quick, fig.width = 9, fig.height = 5.5}
+library(baystability)
+data(cultivo2008)
+data(cultivo2009)
+fm <-
+  bayes_ammi(
+      .data       = cultivo2009
+    , .y          = y
+    , .gen        = entry
+    , .env        = site
+    , .rep        = rep
+    , .nIter      = 3000
+    , .prior_data = cultivo2008
+    , .n0         = NULL
+    , .model      = "AMMI"
+    , .k          = NULL
+    , .burnin     = 1000
+    , .thin       = 1
+    , .chains     = 2
+    , .priors     = bys_priors(
+          mu_mean     = 0
+        , mu_var      = 1e+8
+        , tau_mean    = 0
+        , tau_var     = 1e+8
+        , delta_mean  = 0
+        , delta_var   = 1e+8
+        , lambda_mean = 0
+        , lambda_var  = 1e+8
+        , nu          = 1
+        , s2          = NULL
+        )
+    , .level      = 0.95
+    , .seed       = 2012
+    , .align      = TRUE
+    , .waic       = TRUE
+    )
+fm$summary[block %in% c("mu", "sigma2", "lambda")][1:5]
+bp <-
+  bayes_ammi_biplot(
+      fit           = fm
+    , burnin        = 0
+    , thin          = 1
+    , pb            = c(0.10, 0.05)
+    , plot_stable   = FALSE
+    , plot_unstable = TRUE
+    , ncolors       = 5
+    , .which        = "both"
+    , .grid         = 100
+    )
+bp$biplot
+```
+
+## Learn more
+
+* Vignettes: `browseVignettes("baystability")`, starting with `baystability_01_getting_started`.
+* The application: `bys_app()`.
+* References of the methods behind a result: `bys_cite()`
+
+## Citation
+
+```{r citation, echo = FALSE, comment = ""}
+print(citation(package = "baystability")[1L], style = "text")
+```
+
+BibTeX:
+
+```{r citation-bib, echo = FALSE, comment = ""}
+print(citation(package = "baystability")[1L], style = "bibtex")
+```
+
+Please also cite the methods you use: `citation("baystability")` lists them with the package, and `bys_cite(x)` gives the
+references of a single result.
